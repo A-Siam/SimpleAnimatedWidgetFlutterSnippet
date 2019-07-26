@@ -1,0 +1,49 @@
+//add this file to your dart snippets file (home/<username>/.config/Code/User/snippets/dart.json) in *nix
+{
+	// simple animated flutter widget using animation controller and tweens 
+	// $1: widget name
+	// $2: duration with ms
+	// $3: end value of tween assuming begin with 0 edit it if you want
+	// $4: curve you can choose Curves.linear if you want 
+	// $5: the animated widget add _animation.value to whatever proprty you want 
+	// you can also remove _animationController.forward to whatever you want to be called when a
+	// specific event is fired
+	
+	"Animated Flutter Widget": {
+		"prefix": ["afw", "Animated Flutter Widget"],
+		"body": ["class $1 extends StatefulWidget {",
+			"final Widget content;",
+			"$1({@required this.content});",
+			"@override",
+			"_$1State createState() => _$1State();",
+		  "}",
+		  "class _$1State extends State<$1> with SingleTickerProviderStateMixin {",
+			"AnimationController _animationController;",
+			"Animation<double> _animation;",
+			"@override",
+			"void initState() {",
+			  "super.initState();",
+			  "_animationController =",
+				  "AnimationController(vsync: this, duration: Duration(milliseconds: $2));",
+			  "_animation = Tween<double>(begin: 0, end: $3).animate(CurvedAnimation(",
+				  "parent: _animationController, curve: $4));",
+			  "_animationController.forward();",
+			 " _animationController.addListener(() {",
+				"setState(() {});",
+				"print(_animation.value);",
+			  "});",
+			"}",
+		  
+			"@override",
+			"void dispose() {",
+			  "_animationController.dispose();",
+			  "super.dispose();",
+			"}",
+			"@override",
+			"Widget build(BuildContext context) {",
+			  "return $5;",
+			"}",
+		  "}",
+		  ]
+	}
+}
